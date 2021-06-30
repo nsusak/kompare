@@ -1,5 +1,7 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
+import { createUser } from "../../actions";
 
 class UserCreate extends React.Component {
     renderError({ error, touched }) {
@@ -21,8 +23,8 @@ class UserCreate extends React.Component {
             </div>
         )
     }
-    onSubmit(formValues) {
-        console.log(formValues)
+    onSubmit = formValues => {
+        this.props.createUser(formValues);
     }
     render() {
         return (
@@ -50,7 +52,9 @@ const validate = (formValues) => {
     return errors;
 };
 
-export default reduxForm({
+const formWrapped = reduxForm({
     form: "userCreate",
     validate
 })(UserCreate);
+
+export default connect(null, { createUser })(formWrapped);
