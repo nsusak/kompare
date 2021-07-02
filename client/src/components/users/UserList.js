@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchUsers } from "../../actions";
+import { fetchUsers, deleteUser } from "../../actions";
 
 class UserList extends React.Component {
     componentDidMount() {
@@ -12,7 +12,7 @@ class UserList extends React.Component {
                 return (
                     <div className="item" key={user._id}>
                         <div className="ui right floated content">
-                            <button className="ui button negative">Delete</button>
+                            <button onClick={() => this.deleteButtonClicked(user._id)} className="ui button negative">Delete</button>
                         </div>
                         <i className="large github middle aligned icon" />
                         <div className="content">
@@ -24,6 +24,9 @@ class UserList extends React.Component {
             })
         );
 
+    }
+    deleteButtonClicked = (id) => {
+        this.props.deleteUser(id)
     }
     render() {
         return (
@@ -41,4 +44,4 @@ const mapStateToProps = (state) => {
     return { users: Object.values(state.users) };
 };
 
-export default connect(mapStateToProps, { fetchUsers })(UserList);
+export default connect(mapStateToProps, { fetchUsers, deleteUser })(UserList);

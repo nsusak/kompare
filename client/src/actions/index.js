@@ -20,4 +20,5 @@ export const fetchUsers = () => async dispatch => {
 export const deleteUser = (id) => async dispatch => {
     await users.delete(`/users/${id}`);
     dispatch({ type: DELETE_USER, payload: id })
+    history.push("/")
 };
