@@ -1,7 +1,44 @@
 import React from "react";
+import { connect } from "react-redux";
+import { fetchUsers } from "../../actions";
 
-const userList = () => {
-    return <div>UserList</div>
+class UserList extends React.Component {
+    componentDidMount() {
+        this.props.fetchUsers();
+    }
+    renderList = () => {
+        return (
+            this.props.users[0] && this.props.users[0].map(user => {
+                return (
+                    <div className="item" key={user._id}>
+                        <div className="ui right floated content">
+                            <button className="ui button negative">Delete</button>
+                        </div>
+                        <i className="large github middle aligned icon" />
+                        <div className="content">
+                            <a className="header">{`${user.name} ${user.surname}`}</a>
+                            <div className="description">{user.email}</div>
+                        </div>
+                    </div>
+                );
+            })
+        );
+
+    }
+    render() {
+        return (
+            <div>
+                <h2>Users</h2>
+                <div className="ui relaxed divided list">
+                    {this.renderList()}
+                </div>
+            </div>
+        );
+    }
 }
 
-export default userList;
+const mapStateToProps = (state) => {
+    return { users: Object.values(state.users) };
+};
+
+export default connect(mapStateToProps, { fetchUsers })(UserList);

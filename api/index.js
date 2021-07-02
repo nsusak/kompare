@@ -40,6 +40,12 @@ app.get("/users/:id", async (req, res) => {
     res.json({ user })
 })
 
+app.delete('/users/:id', async (req, res) => {
+    const { id } = req.params;
+    const deletedUser = await User.findByIdAndDelete(id);
+    res.json(deletedUser.id);
+})
+
 app.listen(3001, () => {
     console.log("App is listening on port 3001!")
 })
